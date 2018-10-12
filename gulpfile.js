@@ -8,7 +8,7 @@ const sass = require('gulp-sass');
 const rename = require('gulp-rename');
 const autoprefixer = require('gulp-autoprefixer');
 
-const browserSync = require('browser-sync').create();
+// const browserSync = require('browser-sync').create();
 
 const del = require('del');
 
@@ -83,12 +83,12 @@ function watch() {
 }
 
 // локальный сервер + livereload (встроенный)
-function server() {
-  browserSync.init({
-    server: paths.root
-  });
-  browserSync.watch(paths.root + '/**/*.*', browserSync.reload);
-}
+// function server() {
+//   browserSync.init({
+//     server: paths.root
+//   });
+//   browserSync.watch(paths.root + '/**/*.*', browserSync.reload);
+// }
 
 // просто переносим картинки
 function images() {
@@ -118,6 +118,6 @@ gulp.task(
   gulp.series(
     clean,
     gulp.parallel(styles, templates, fonts, images, scripts),
-    gulp.parallel(watch, server)
+    gulp.parallel(watch)
   )
 );

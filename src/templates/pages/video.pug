@@ -1,0 +1,28 @@
+extends ../template
+
+block variables
+    - var title = 'Яндекс Дом - Видео'
+
+block content
+    .wrapper#wrapper
+        .content#content
+            include ../components/header.pug
+            +header(3)   
+
+            section.multimedia
+                h1.multimedia__header Видео-каналы
+                ul.multimedia__list
+                    div(class="multimedia__video-frame")
+                        video(id="video1" class="multimedia__video" controls mute autoplay)
+                    div(class="multimedia__video-frame")
+                        video(id="video2" class="multimedia__video" controls mute)
+                    div(class="multimedia__video-frame")
+                        video(id="video3" class="multimedia__video" controls mute)
+                    div(class="multimedia__video-frame")
+                        video(id="video4" class="multimedia__video" controls mute)
+
+        include ../components/footer.pug
+        +footer                                            
+
+    script(src="//cdn.jsdelivr.net/npm/hls.js@latest" defer)
+    script(src='./video.js' defer)

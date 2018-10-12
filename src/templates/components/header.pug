@@ -1,0 +1,22 @@
+mixin header(activeIndex, linkArray)
+    header.header.container
+        .header__left
+            a(href="#").logo
+        .header__right
+            div#hamburger.hamburger                
+                a(href="#").hamburger__link Меню
+                    .hamburger__line    
+            nav.menu
+                ul.menu__list
+                    - 
+                        var menuLinks = [
+                            [ '/index.html',     'Сводка' ],
+                            [ '#', 'Устройства' ],
+                            [ '#',     'Сценарии' ],
+                            [ '/video.html',     'Видео' ],
+                            ]   
+                    each item,index in menuLinks
+                        - var isActive = (index === activeIndex);
+                        li(class = isActive? 'menu__item menu__item--active': 'menu__item')
+                            a(href=`${item[0]}` class='menu__link') #{item[1]} 
+

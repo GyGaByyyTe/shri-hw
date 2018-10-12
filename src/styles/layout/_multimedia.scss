@@ -1,0 +1,36 @@
+.multimedia {
+  @include for-desktop-up {
+    padding: 0 7.3rem 4.5rem 7.3rem;
+  }
+  @include for-wide-up {
+    max-width: 1500px;
+    margin: 0 auto;
+    padding: 0 14.3rem 6.5rem 14.3rem;
+  }
+  padding: 1.5rem 1.67rem 2rem 1.67rem;
+}
+.multimedia__header {
+  padding-top: 2.83rem;
+  padding-bottom: 2.67rem;
+  font-family: Arial;
+  font-size: rem(36px);
+  font-weight: bold;
+  color: $color__dark;
+  text-align: left;
+
+  @include for-phone-only {
+    font-size: rem(24px);
+    padding-top: 3.5rem;
+    padding-bottom: 1.58rem;
+  }
+}
+.multimedia__list {
+    display: grid;
+    grid-template-rows: 1fr 1fr;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 2vw;
+}
+.multimedia__video {
+    width: 100%;
+    height: 100%;
+}
