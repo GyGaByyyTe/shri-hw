@@ -1,0 +1,27 @@
+.header {
+  @include for-desktop-up {
+    position: static;
+    padding-bottom: 2.75rem;
+    border-bottom: 1px solid $color__gray;
+  }
+  // @include for-phone-only {
+  position: fixed;
+  left: 0;
+  right: 0;
+  z-index: 10;
+  background-color: $color__white;
+  // }
+
+  &__left,
+  &__right {
+    display: inline-block;
+    vertical-align: middle;
+    @include for-phone-only {
+      width: 49%;
+    }
+  }
+
+  &__right {
+    text-align: right;
+  }
+}

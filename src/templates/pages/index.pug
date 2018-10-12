@@ -1,0 +1,95 @@
+extends ../template
+
+block variables
+    - var title = 'Яндекс Дом'
+    - var title = 'Яндекс Дом'
+    - var title = 'Яндекс Дом'
+    - var title = 'Яндекс Дом'
+
+
+
+block content
+    .wrapper#wrapper
+        .content#content
+            header.header.container
+                .header__left
+                    a(href="#").logo
+                .header__right
+                    .hamburger                
+                        a(href="#").hamburger__link Меню
+                            .hamburger__line    
+                    nav.menu
+                        ul.menu__list
+                            li.menu__item.menu__item--active 
+                                a(href="#").menu__link Сводка
+                            li.menu__item 
+                                a(href="#").menu__link Устройства
+                            li.menu__item 
+                                a(href="#").menu__link Сценарии
+
+            section.events
+                h1.events__header Лента событий
+                ul(class="events__list")
+                    each event in events
+                        li(class="events__item events__item--size_"+event.size)
+                            - var isCamera = event.icon == 'cam';
+                            a(class="events__link" href= isCamera ? 'https://gygabyyyte.github.io/shri-hw-2/build/' : "#")
+                                - var isCritical = event.type == 'critical';
+                                div(class= isCritical ? 'events__top events__top--critical' : "events__top")
+                                    div(class="events__title")
+                                        div(class="events__title-icon events__title-icon--"+event.icon) 
+                                        .events__title-wrap
+                                            p.events__title-text #{event.title}
+                                    div(class="events__info events__info--"+event.size)
+                                        span.events__source #{event.source}
+                                        span.events__time #{event.time}
+                                if event.description        
+                                    div(class= isCritical ? 'events__bottom events__bottom--critical' : "events__bottom")
+                                        p(class="events__description events__description--"+event.size) #{event.description}
+                                        if event.data
+                                            div.events__content
+                                                case event.icon
+                                                    when "cam"
+                                                        img(class="events__content-image" src="./assets/images/image.jpg")
+                                                    when "stats"
+                                                        img(class="events__content-image" src="./assets/images/stats.png")
+                                                    when "fridge"
+                                                        div(class="buttons")
+                                                            each btn in event.data.buttons
+                                                                if (btn == "Да") 
+                                                                    button(class="buttons__button buttons__button--apply") #{btn}
+                                                                else
+                                                                    button(class="buttons__button") #{btn}
+                                                    when "thermal"
+                                                        div(class="events__info")
+                                                            .events__termal Температура: 
+                                                                span.events__termal-data #{event.data.temperature}&nbsp;C
+                                                            .events__termal Влажность: 
+                                                                span.events__termal-data #{event.data.humidity}%
+                                                    when "music"
+                                                        div(class="events__music-info")
+                                                            img(class="events__music-icon" src=event.data.albumcover) 
+                                                            .events__data
+                                                                .events__music-wrap
+                                                                    p.events__music-text #{event.data.artist} - #{event.data.track.name}
+                                                                .events__music-timer 
+                                                                    span.events__music-range.events__music-range--timer
+                                                                    span.events__music-time #{event.data.track.length}
+                                                        div(class="events__music-controls")
+                                                            button(class="events__music-button events__music-button--prev") Prev
+                                                            button(class="events__music-button events__music-button--next") Next
+                                                            span.events__music-range.events__music-range--volume
+                                                            span.events__music-time #{event.data.volume}%
+
+
+        footer.footer
+            ul.footer__list
+                li.footer__item
+                    a(href="#").footer__link Помощь
+                li.footer__item
+                    a(href="#").footer__link Обратная связь
+                li.footer__item                
+                    a(href="#").footer__link Разработчикам
+                li.footer__item
+                    a(target="_blank" rel="nofollow noopener" href="https://gygabyyyte.github.io/shri-hw-1/license.pdf").footer__link Условия использования
+            .footer__copyright &copy; 2001-2018 OOO "Яндекс"                                  

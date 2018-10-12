@@ -1,0 +1,41 @@
+$menu__padding: 1.5rem;
+
+.menu {
+  @include for-phone-only {
+    position: absolute;
+    z-index: 20;
+    left: $menu__padding;
+    right: $menu__padding;
+    top: -200%;
+    will-change: top;
+    background-color: $color__yellow;
+    border-radius: 10px;
+    text-align: left;
+    padding: 1rem;
+  }
+
+  @include transition;
+
+  &--active {
+    top: $menu__padding;
+  }
+
+  &__item {
+    opacity: 0.6;
+    font-weight: bold;
+    font-size: rem(16px, 12px);
+    color: $color__dark--light;
+    display: inline-block;
+    margin-right: 2.33rem;
+
+    @include for-phone-only {
+      display: list-item;
+      margin-right: 0;
+    }
+
+    &--active {
+      color: $color__dark;
+      opacity: 1;
+    }
+  }
+}
