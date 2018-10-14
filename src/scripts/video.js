@@ -28,8 +28,8 @@ const videoInit = () => {
     window.AudioContext = window.webkitAudioContext;
   }
   const audioContext = new AudioContext();
-  //сюда запоминаю элемент, созданный через createMediaElementSource
-  //потому что удалять его не получается при смене источника аудио
+  	//сюда запоминаю элемент, созданный через createMediaElementSource
+  	//потому что удалять его не получается при смене источника аудио
   let audioSourceNodes = { 0: null, 1: null, 2: null, 3: null };
 
   const analyser = audioContext.createAnalyser();
@@ -179,7 +179,8 @@ const videoInit = () => {
       event.preventDefault();
       if (Math.abs(videoListWidth - node.parentNode.clientWidth) > 10) {
         node.parentNode.classList.add("multimedia__video-frame--full");
-        const animation = node.parentNode.animate(
+
+				const animation = node.parentNode.animate(
           [
             { width: `${playerWidth}px`, height: `${playerHeight}px` },
             { width: `${videoListWidth}px`, height: `${videoListHeight}px` }
@@ -189,7 +190,8 @@ const videoInit = () => {
           }
         );
         animation.onfinish = () => {
-          setupAudioNodes(videoArray[index], index);
+					setupAudioNodes(videoArray[index], index);
+
           node.parentNode.style.width = `${videoListWidth}px`;
           node.parentNode.style.height = `${videoListHeight}px`;
 
@@ -228,7 +230,6 @@ const videoInit = () => {
           isFullScreen: false,
           canvasObjects: cObject
         };
-        // audioSourceNodes[index].disconnect(analyser);
         audioSourceNodes[index].disconnect();
         animation.onfinish = () => {
           node.parentNode.classList.remove("multimedia__video-frame--full");
