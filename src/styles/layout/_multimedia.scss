@@ -79,14 +79,6 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: red;
-}
-button {
-  -webkit-appearance: none;
-  display: inline-block;
-  padding: 3px;
-  font-size: 14px;
-  display: none;
 }
 .multimedia__controls {
   display: flex;
@@ -103,4 +95,27 @@ button {
 }
 .multimedia__range {
   margin-left: 10px;
+}
+.buttons {
+  @include for-phone-only {
+    display: flex;
+    flex-direction: column;
+  }
+}
+.multimedia__volume {
+  border: 1px solid black;
+  vertical-align: middle;
+}
+.multimedia__text-volume {
+  margin-left: 20px;
+  font-size: 16px;
+  line-height: 30px;
+  vertical-align: middle;
+}
+button {
+  -webkit-appearance: none;
+  display: inline-block;
+  padding: 5px;
+  font-size: 14px;
+  display: none;
 }

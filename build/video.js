@@ -1,44 +1,79 @@
 const ANIMATION_TIME = 300;
 
 const videoInit = () => {
+  const blocks = document.querySelectorAll("button");
   const videoArray = document.querySelectorAll(".multimedia__video");
   const canvasArray = document.querySelectorAll(".multimedia__canvas");
   const inputBright = document.querySelector("#bright");
   const spanBright = document.querySelector(".multimedia__bright");
   const inputContrast = document.querySelector("#contrast");
   const spanContrast = document.querySelector(".multimedia__contrast");
-  const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-  const analyser = audioCtx.createAnalyser();
-  analyser.smoothingTimeConstant = 0.3;
-  analyser.fftSize = 512;
 
+  //контейнер с видео
+  const videoList = document.querySelector(".multimedia__list");
+  let videoListWidth = parseInt(videoList.clientWidth);
+  let videoListHeight;
+
+  //volume meter
+  const ctx = document.querySelector("#meter").getContext("2d");
+  const gradient = ctx.createLinearGradient(0, 0, 300, 0);
+  gradient.addColorStop(1, "#000000");
+  gradient.addColorStop(0.75, "#ff0000");
+  gradient.addColorStop(0.25, "#ffff00");
+  gradient.addColorStop(0, "#ffffff");
+  if (!window.AudioContext) {
+    if (!window.webkitAudioContext) {
+      alert("no audiocontext found");
+    }
+    window.AudioContext = window.webkitAudioContext;
+  }
+  const audioContext = new AudioContext();
+  //сюда запоминаю элемент, созданный через createMediaElementSource
+  //потому что удалять его не получается при смене источника аудио
+  let audioSourceNodes = { 0: null, 1: null, 2: null, 3: null };
+
+  const analyser = audioContext.createAnalyser();
+  analyser.smoothingTimeConstant = 0.3;
+  analyser.fftSize = 1024;
+  const javascriptNode = audioContext.createScriptProcessor(2048, 1, 1);
+  javascriptNode.onaudioprocess = function() {
+    let array = new Uint8Array(analyser.frequencyBinCount);
+    analyser.getByteFrequencyData(array);
+    const average = getAverageVolume(array);
+    ctx.clearRect(0, 0, 500, 50);
+    ctx.fillStyle = gradient;
+    ctx.fillRect(0, 0, 2 * average, 50);
+  };
+  function getAverageVolume(array) {
+    let values = 0;
+    let average;
+    const length = array.length;
+    for (var i = 0; i < length; i++) {
+      values += array[i];
+    }
+    average = values / length;
+    return average;
+  }
+  javascriptNode.connect(audioContext.destination);
+  analyser.connect(javascriptNode);
+  function setupAudioNodes(video, index) {
+    if (!audioSourceNodes[index]) {
+      audioSourceNodes[index] = audioContext.createMediaElementSource(video);
+    }
+    audioSourceNodes[index].connect(analyser);
+    audioSourceNodes[index].connect(audioContext.destination);
+  }
+
+  //application State
   let appState = {
     isFullScreen: false,
-    canvasObjects: {},
-    canvasBackObjects: {}
+    canvasObjects: {}
   };
   canvasArray.forEach((c, i) => {
-    const back = document.createElement("canvas");
-    back.classList.add("multimedia__canvas-back");
-    c.parentNode.insertBefore(back, null);
-
     appState.canvasObjects[i] = {
       canvas: c,
       fullScreen: false
     };
-    appState.canvasBackObjects[i] = {
-      canvas: back,
-      fullScreen: false
-    };
-  });
-  console.log(appState);
-
-  const blocks = document.querySelectorAll("button");
-  blocks.forEach((item, index) => {
-    item.addEventListener("click", event => {
-      event.preventDefault();
-      videoArray[index].play();
-    });
   });
 
   const sources = [
@@ -52,35 +87,38 @@ const videoInit = () => {
     "http://hls-edge.cdn.buy-home.tv/bhtvlive/_definst_/live/playlist.m3u8" //
   ];
 
-  const videoList = document.querySelector(".multimedia__list");
-  let videoListWidth = parseInt(videoList.clientWidth);
-  let videoListHeight; // = parseInt(videoList.clientHeight);
-
   const createPlayer = (video, canvas, source) => {
     if (Hls.isSupported()) {
       const hls = new Hls();
       hls.attachMedia(video);
-
       hls.on(Hls.Events.MEDIA_ATTACHED, () => {
         hls.loadSource(source);
-
         hls.on(Hls.Events.MANIFEST_PARSED, (event, data) => {
-          hls.currentLevel = hls.startLevel;
-          video.play();
+          video.play().catch(() => {
+            // на андроиде видео не запускалось автоматически, показываю кнопку
+            blocks[canvas.index].style.display = "inline-block";
+            blocks[canvas.index].innerText = `Play ${canvas.index + 1} видео`;
+            blocks[canvas.index].addEventListener("click", event => {
+              event.preventDefault();
+              video.play().then(() => {
+                blocks[canvas.index].disabled = "disabled";
+                blocks[canvas.index].innerText = `Played ${canvas.index + 1}`;
+              });
+            });
+          });
           bindVideoCanvas(video, canvas);
         });
       });
       hls.on(Hls.Events.ERROR, function(event, data) {
         switch (data.type) {
           case Hls.ErrorTypes.NETWORK_ERROR:
-            // try to recover network error
             hls.startLoad();
             break;
           case Hls.ErrorTypes.MEDIA_ERROR:
             hls.recoverMediaError();
             break;
           default:
-            // hls.destroy();
+            hls.destroy();
             break;
         }
       });
@@ -88,7 +126,7 @@ const videoInit = () => {
       video.src = source;
       video.addEventListener("loadedmetadata", function() {
         video.play();
-        // var video = videojs(video.id);
+        var video = videojs(video.id);
         bindVideoCanvas(video, canvas);
       });
     }
@@ -97,19 +135,16 @@ const videoInit = () => {
   const bindVideoCanvas = (video, canvas) => {
     const { node, index } = canvas;
     const context = node.getContext("2d");
-    const cBack = appState.canvasBackObjects[index].canvas.getContext("2d");
-    const cw = 480;
+    const cw = 480; //магические числа самого низкого разрешения видео
     const ch = 360;
     node.width = cw;
     node.height = ch;
-    appState.canvasBackObjects[index].canvas.width = cw;
-    appState.canvasBackObjects[index].canvas.height = ch;
     const playerWidth = node.parentNode.clientWidth;
     const playerHeight = node.parentNode.clientHeight;
     videoListHeight = playerHeight * 2 + 5;
 
-    function draw(v, c, bc, w, h, index) {
-      if (v.ended) return false;
+    function draw(v, c, w, h, index) {
+      if (v.paused || v.ended) return false;
       if (appState.isFullScreen) {
         if (appState.canvasObjects[index].fullScreen) {
           v.muted = false;
@@ -120,26 +155,22 @@ const videoInit = () => {
           c.filter = `brightness(${newBright}) contrast(${newContrast})`;
           c.drawImage(v, 0, 0, w, h);
         } else {
-          // v.pause();
           v.muted = true;
         }
       } else {
-        // if (v.paused) {
-        //   v.play();
-        // }
         v.muted = true;
         c.filter = "none";
         c.drawImage(v, 0, 0, w, h);
       }
       requestAnimationFrame(() => {
-        draw(v, c, bc, w, h, index);
+        draw(v, c, w, h, index);
       });
     }
 
     video.addEventListener(
       "play",
       () => {
-        draw(video, context, cBack, cw, ch, index);
+        draw(video, context, cw, ch, index);
       },
       false
     );
@@ -158,10 +189,9 @@ const videoInit = () => {
           }
         );
         animation.onfinish = () => {
+          setupAudioNodes(videoArray[index], index);
           node.parentNode.style.width = `${videoListWidth}px`;
           node.parentNode.style.height = `${videoListHeight}px`;
-          blocks[index].innerText = `${node.parentNode.style.width}
-						${node.parentNode.style.height}`;
 
           let cObject = {
             ...appState.canvasObjects,
@@ -198,21 +228,22 @@ const videoInit = () => {
           isFullScreen: false,
           canvasObjects: cObject
         };
+        // audioSourceNodes[index].disconnect(analyser);
+        audioSourceNodes[index].disconnect();
         animation.onfinish = () => {
           node.parentNode.classList.remove("multimedia__video-frame--full");
-          // node.parentNode.style = "width:auto; height: auto;";
           node.parentNode.style.width = `${playerWidth}px`;
           node.parentNode.style.height = `${playerHeight}px`;
-          blocks[index].innerText = `${node.parentNode.style.width}
-						${node.parentNode.style.height}`;
         };
       }
     });
   };
+  //создаем 4 плеера для потоков
   for (let i = 0; i < 4; i++) {
     createPlayer(videoArray[i], { node: canvasArray[i], index: i }, sources[i]);
   }
 };
+
 document.addEventListener(
   "DOMContentLoaded",
   () => {

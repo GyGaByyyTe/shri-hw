@@ -40,28 +40,28 @@
               <input class="multimedia__range" type="range" min="-100" max="400" value="0" step="10" id="contrast"><span class="multimedia__contrast">100%</span>
             </label>
           </div>
+          <canvas class="multimedia__volume" id="meter" width="300" height="30"></canvas><span class="multimedia__text-volume">Громкость</span>
           <div class="buttons">
-            <canvas id="meter" width="500" height="50" style="background-color:blue;"></canvas>
-            <button id="click1">1блок</button>
-            <button id="click2">2блок</button>
-            <button id="click3">3блок</button>
-            <button id="click4">4блок</button>
+            <button id="click1">Play 1 видео</button>
+            <button id="click2">Play 2 видео</button>
+            <button id="click3">Play 3 видео</button>
+            <button id="click4">Play 4 видео</button>
           </div>
           <div class="multimedia__list">
             <div class="multimedia__video-frame">
-              <video class="multimedia__video" id="video1" crossorigin="anonymous" controls autoplay loop></video>
+              <video class="multimedia__video" id="video1" crossorigin="anonymous"></video>
               <canvas class="multimedia__canvas" id="canvas-for-video1"></canvas>
             </div>
             <div class="multimedia__video-frame">
-              <video class="multimedia__video" id="video2" crossorigin="anonymous" controls autoplay loop></video>
+              <video class="multimedia__video" id="video2" crossorigin="anonymous"></video>
               <canvas class="multimedia__canvas" id="canvas-for-video2"></canvas>
             </div>
             <div class="multimedia__video-frame">
-              <video class="multimedia__video" id="video3" crossorigin="anonymous" controls autoplay loop></video>
+              <video class="multimedia__video" id="video3" crossorigin="anonymous"></video>
               <canvas class="multimedia__canvas" id="canvas-for-video3"></canvas>
             </div>
             <div class="multimedia__video-frame">
-              <video class="multimedia__video" id="video4" crossorigin="anonymous" controls autoplay loop></video>
+              <video class="multimedia__video" id="video4" crossorigin="anonymous"></video>
               <canvas class="multimedia__canvas" id="canvas-for-video4"></canvas>
             </div>
           </div>
