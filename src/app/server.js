@@ -6,8 +6,6 @@ var os = require("os");
 const networkInterfaces = os.networkInterfaces();
 const app = express();
 const host = "0.0.0.0";
-const localHost = networkInterfaces.lo0[0].address;
-const externalHost = networkInterfaces.en0[1].address;
 const port = 8000;
 
 const filePath = __dirname + "/events.json";
@@ -35,34 +33,30 @@ app.get("/status", (req, res) => {
 });
 
 app.get("/api/events", (req, res) => {
-  //есть гет параметры
-  if (Object.keys(req.query).length > 0) {
-    if (req.query.type) {
-      const params = req.query.type.split(":");
-      for (let index = 0; index < params.length; index++) {
-        if (!statuses.includes(params[index])) {
-          res.status(400).send("<h1>ERROR 400 incorrect type</h1>");
-          return;
-        }
+  //есть гет параметры и среди них type
+  if (Object.keys(req.query).length > 0 && req.query.type) {
+    const params = req.query.type.split(":");
+    for (let index = 0; index < params.length; index++) {
+      if (!statuses.includes(params[index])) {
+        res.status(400).send("<h1>ERROR 400 incorrect type</h1>");
+        return;
       }
-      res.set({ "content-type": "application/json; charset=utf-8" });
-      const stream = fs.createReadStream(filePath, { encoding: "utf8" });
-      const parser = JSONStream.parse("events.*");
-
-      stream.pipe(parser);
-
-      parser.on("data", function(obj) {
-        if (params.includes(obj["type"])) {
-          res.write(JSON.stringify(obj, null, 2));
-        }
-      });
-
-      stream.on("end", function(obj) {
-        res.end();
-      });
-    } else {
-      res.status(404).send("<h1>ERROR 404 Page not found</h1>");
     }
+    res.set({ "content-type": "application/json; charset=utf-8" });
+    const stream = fs.createReadStream(filePath, { encoding: "utf8" });
+    const parser = JSONStream.parse("events.*");
+
+    stream.pipe(parser);
+
+    parser.on("data", function(obj) {
+      if (params.includes(obj["type"])) {
+        res.write(JSON.stringify(obj, null, 2));
+      }
+    });
+
+    stream.on("end", function(obj) {
+      res.end();
+    });
   } else {
     // выборка не требуется, транслируем весь файл
     res.set({ "content-type": "application/json; charset=utf-8" });
@@ -77,7 +71,6 @@ app.listen(port, host, () => {
   let currentTime = startTime.toTimeString().split(" ")[0];
   console.log(
     `Server started at ${currentTime},
-		 local: ${localHost}:${port}
-		 external: ${externalHost}:${port}`
+		 local: 127.0.0.1:${port}`
   );
 });
