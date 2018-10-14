@@ -11,22 +11,31 @@ block content
 
 			section.multimedia
 				h1.multimedia__header Видео-каналы
+				.multimedia__controls
+					label(class="multimedia__label") Яркость
+						input(type="range" min="-100" max="400" value="0" step="10" id="bright" class="multimedia__range")
+						span.multimedia__bright 100%
+					label(class="multimedia__label") Контрастность
+						input(type="range" min="-100" max="400" value="0" step="10" id="contrast" class="multimedia__range")
+						span.multimedia__contrast 100%
+				.buttons
+					canvas(id="meter" width="500" height="50" style="background-color:blue;")
 					button(id="click1") 1блок
 					button(id="click2") 2блок
 					button(id="click3") 3блок
 					button(id="click4") 4блок
 				div.multimedia__list
 					div(class="multimedia__video-frame")
-						video(id="video1" crossorigin="anonymous" class="multimedia__video" controls muted autoplay loop)
+						video(id="video1" crossorigin="anonymous" class="multimedia__video" controls  autoplay loop)
 						canvas(id="canvas-for-video1" class="multimedia__canvas")
 					div(class="multimedia__video-frame")
-						video(id="video2" crossorigin="anonymous" class="multimedia__video" controls muted autoplay loop)
+						video(id="video2" crossorigin="anonymous" class="multimedia__video" controls  autoplay loop)
 						canvas(id="canvas-for-video2" class="multimedia__canvas")
 					div(class="multimedia__video-frame")
-						video(id="video3" crossorigin="anonymous" class="multimedia__video" controls muted autoplay loop)
+						video(id="video3" crossorigin="anonymous" class="multimedia__video" controls  autoplay loop)
 						canvas(id="canvas-for-video3" class="multimedia__canvas")
 					div(class="multimedia__video-frame")
-						video(id="video4" crossorigin="anonymous" class="multimedia__video" controls muted autoplay loop)
+						video(id="video4" crossorigin="anonymous" class="multimedia__video" controls  autoplay loop)
 						canvas(id="canvas-for-video4" class="multimedia__canvas")
 
 
