@@ -7,7 +7,7 @@ const networkInterfaces = os.networkInterfaces();
 const app = express();
 const host = "0.0.0.0";
 const localHost = networkInterfaces.lo0[0].address;
-const externalHost = networkInterfaces.en0[1].address;
+// const externalHost = networkInterfaces.en0[1].address;
 const port = 8000;
 
 const filePath = __dirname + "/events.json";
@@ -76,8 +76,7 @@ app.use((req, res, next) => {
 app.listen(port, host, () => {
   let currentTime = startTime.toTimeString().split(" ")[0];
   console.log(
-    `Server started at ${currentTime}, 
-     local: ${localHost}:${port}
-     external: ${externalHost}:${port}`
+    `Server started at ${currentTime},
+     local: ${localHost}:${port}`
   );
 });

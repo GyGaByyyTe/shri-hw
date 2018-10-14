@@ -1,28 +1,38 @@
 extends ../template
 
 block variables
-    - var title = 'Яндекс Дом - Видео'
+	- var title = 'Яндекс Дом - Видеонаблюдение'
 
 block content
-    .wrapper#wrapper
-        .content#content
-            include ../components/header.pug
-            +header(3)   
+	.wrapper#wrapper
+		.content#content
+			include ../components/header.pug
+			+header(3)
 
-            section.multimedia
-                h1.multimedia__header Видео-каналы
-                ul.multimedia__list
-                    div(class="multimedia__video-frame")
-                        video(id="video1" class="multimedia__video" controls mute autoplay)
-                    div(class="multimedia__video-frame")
-                        video(id="video2" class="multimedia__video" controls mute)
-                    div(class="multimedia__video-frame")
-                        video(id="video3" class="multimedia__video" controls mute)
-                    div(class="multimedia__video-frame")
-                        video(id="video4" class="multimedia__video" controls mute)
+			section.multimedia
+				h1.multimedia__header Видео-каналы
+					button(id="click1") 1блок
+					button(id="click2") 2блок
+					button(id="click3") 3блок
+					button(id="click4") 4блок
+				div.multimedia__list
+					div(class="multimedia__video-frame")
+						video(id="video1" crossorigin="anonymous" class="multimedia__video" controls muted autoplay loop)
+						canvas(id="canvas-for-video1" class="multimedia__canvas")
+					div(class="multimedia__video-frame")
+						video(id="video2" crossorigin="anonymous" class="multimedia__video" controls muted autoplay loop)
+						canvas(id="canvas-for-video2" class="multimedia__canvas")
+					div(class="multimedia__video-frame")
+						video(id="video3" crossorigin="anonymous" class="multimedia__video" controls muted autoplay loop)
+						canvas(id="canvas-for-video3" class="multimedia__canvas")
+					div(class="multimedia__video-frame")
+						video(id="video4" crossorigin="anonymous" class="multimedia__video" controls muted autoplay loop)
+						canvas(id="canvas-for-video4" class="multimedia__canvas")
 
-        include ../components/footer.pug
-        +footer                                            
 
-    script(src="//cdn.jsdelivr.net/npm/hls.js@latest" defer)
-    script(src='./video.js' defer)
+		include ../components/footer.pug
+		+footer
+
+	script(src="https://rawgit.com/web-animations/web-animations-js/master/web-animations.min.js")
+	script(src="//cdn.jsdelivr.net/npm/hls.js@latest" defer)
+	script(src='./video.js' defer)

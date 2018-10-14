@@ -3,12 +3,14 @@
   <head>
     <meta name="robots" content="noindex">
     <meta charset="utf-8">
-    <title>Яндекс Дом - Видео</title>
+    <title>Яндекс Дом - Видеонаблюдение</title>
     <meta content="" name="description">
     <meta content="" name="keywords">
     <meta content="width=device-width, initial-scale=1" name="viewport">
     <meta content="ie=edge" http-equiv="x-ua-compatible">
     <link rel="stylesheet" href="styles.min.css">
+    <link href="https://unpkg.com/video.js/dist/video-js.min.css" rel="stylesheet">
+    <script src="https://unpkg.com/video.js/dist/video.min.js"></script>
   </head>
   <body>
     <div class="wrapper" id="wrapper">
@@ -16,34 +18,43 @@
                 <header class="header container">
                   <div class="header__left"><a class="logo" href="#"></a></div>
                   <div class="header__right">
-                    <div class="hamburger" id="hamburger">               <a class="hamburger__link" href="#">Меню
-                        <div class="hamburger__line">   </div></a></div>
+                    <div class="hamburger" id="hamburger"><a class="hamburger__link" href="#">Меню
+                        <div class="hamburger__line"></div></a></div>
                     <nav class="menu">
                       <ul class="menu__list">
-                        <li class="menu__item"><a class="menu__link" href="/index.html">Сводка </a></li>
-                        <li class="menu__item"><a class="menu__link" href="#">Устройства </a></li>
-                        <li class="menu__item"><a class="menu__link" href="#">Сценарии </a></li>
-                        <li class="menu__item menu__item--active"><a class="menu__link" href="/video.html">Видео </a></li>
+                        <li class="menu__item"><a class="menu__link" href="/index.html">Сводка</a></li>
+                        <li class="menu__item"><a class="menu__link" href="#">Устройства</a></li>
+                        <li class="menu__item"><a class="menu__link" href="#">Сценарии</a></li>
+                        <li class="menu__item menu__item--active"><a class="menu__link" href="/video.html">Видеонаблюдение</a></li>
                       </ul>
                     </nav>
                   </div>
                 </header>
         <section class="multimedia">
-          <h1 class="multimedia__header">Видео-каналы</h1>
-          <ul class="multimedia__list">
+          <h1 class="multimedia__header">Видео-каналы
+            <button id="click1">1блок</button>
+            <button id="click2">2блок</button>
+            <button id="click3">3блок</button>
+            <button id="click4">4блок</button>
+          </h1>
+          <div class="multimedia__list">
             <div class="multimedia__video-frame">
-              <video class="multimedia__video" id="video1" controls mute autoplay></video>
+              <video class="multimedia__video" id="video1" crossorigin="anonymous" controls muted autoplay loop></video>
+              <canvas class="multimedia__canvas" id="canvas-for-video1"></canvas>
             </div>
             <div class="multimedia__video-frame">
-              <video class="multimedia__video" id="video2" controls mute></video>
+              <video class="multimedia__video" id="video2" crossorigin="anonymous" controls muted autoplay loop></video>
+              <canvas class="multimedia__canvas" id="canvas-for-video2"></canvas>
             </div>
             <div class="multimedia__video-frame">
-              <video class="multimedia__video" id="video3" controls mute></video>
+              <video class="multimedia__video" id="video3" crossorigin="anonymous" controls muted autoplay loop></video>
+              <canvas class="multimedia__canvas" id="canvas-for-video3"></canvas>
             </div>
             <div class="multimedia__video-frame">
-              <video class="multimedia__video" id="video4" controls mute></video>
+              <video class="multimedia__video" id="video4" crossorigin="anonymous" controls muted autoplay loop></video>
+              <canvas class="multimedia__canvas" id="canvas-for-video4"></canvas>
             </div>
-          </ul>
+          </div>
         </section>
       </div>
             <footer class="footer">
@@ -56,6 +67,7 @@
               <div class="footer__copyright">&copy; 2001-2018 OOO "Яндекс" </div>
             </footer>
     </div>
+    <script src="https://rawgit.com/web-animations/web-animations-js/master/web-animations.min.js"></script>
     <script src="//cdn.jsdelivr.net/npm/hls.js@latest" defer></script>
     <script src="./video.js" defer></script>
   </body>
