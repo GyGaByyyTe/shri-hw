@@ -1,49 +1,51 @@
-const gulp = require('gulp');
-const fs = require('fs');
-const pug = require('gulp-pug');
-const data = require('gulp-data');
-const path = require('path');
+const gulp = require("gulp");
+const fs = require("fs");
+const pug = require("gulp-pug");
+const data = require("gulp-data");
+const path = require("path");
 
-const sass = require('gulp-sass');
-const rename = require('gulp-rename');
-const autoprefixer = require('gulp-autoprefixer');
+const sass = require("gulp-sass");
+const rename = require("gulp-rename");
+const autoprefixer = require("gulp-autoprefixer");
 
 // const browserSync = require('browser-sync').create();
 
-const del = require('del');
+const del = require("del");
 
 const paths = {
-  root: './build',
+  root: "./build",
   templates: {
-    pages: 'src/templates/pages/*.pug',
-    src: 'src/templates/**/*.pug'
+    pages: "src/templates/pages/*.pug",
+    src: "src/templates/**/*.pug"
   },
   styles: {
-    src: 'src/styles/**/*.scss',
-    dest: 'build/'
+    src: "src/styles/**/*.scss",
+    dest: "build/"
   },
   scripts: {
-    src: 'src/scripts/**/*.js',
-    dest: 'build/'
+    src: "src/scripts/**/*.js",
+    dest: "build/"
   },
   images: {
-    src: 'src/images/**/*.*',
-    dest: 'build/assets/images/'
+    src: "src/images/**/*.*",
+    dest: "build/assets/images/"
   },
   fonts: {
-    src: 'src/fonts/**/*.*',
-    dest: 'build/assets/fonts/'
+    src: "src/fonts/**/*.*",
+    dest: "build/assets/fonts/"
   }
 };
 
 // pug
 function templates() {
-  var dataFile = 'src/templates/pages/events.json';
+  var dataFile = "src/templates/pages/events.json";
   return gulp
     .src(paths.templates.pages)
-    .pipe(data(function(file){
-      return JSON.parse(fs.readFileSync(dataFile));
-    }))
+    .pipe(
+      data(function(file) {
+        return JSON.parse(fs.readFileSync(dataFile));
+      })
+    )
     .pipe(pug({ pretty: true }))
     .pipe(gulp.dest(paths.root));
 }
@@ -51,21 +53,21 @@ function templates() {
 // scss
 function styles() {
   return gulp
-    .src('./src/styles/styles.scss')
+    .src("./src/styles/styles.scss")
     .pipe(
       sass({
-        outputStyle: 'compressed'
-      }).on('error', function(error) {
+        outputStyle: "compressed"
+      }).on("error", function(error) {
         console.log(error);
       })
     )
     .pipe(
       autoprefixer({
-        browsers: ['last 2 versions'],
+        browsers: ["last 2 versions"],
         cascade: false
       })
     )
-    .pipe(rename({ suffix: '.min' }))
+    .pipe(rename({ suffix: ".min" }))
     .pipe(gulp.dest(paths.styles.dest));
 }
 
@@ -111,13 +113,18 @@ exports.clean = clean;
 exports.images = images;
 exports.scripts = scripts;
 
-gulp.task('css', gulp.series(clean, styles));
+gulp.task("css", gulp.series(clean, styles));
 
 gulp.task(
-  'default',
+  "default",
   gulp.series(
     clean,
     gulp.parallel(styles, templates, fonts, images, scripts),
     gulp.parallel(watch)
   )
+);
+
+gulp.task(
+  "build",
+  gulp.series(clean, gulp.parallel(styles, templates, fonts, images, scripts))
 );
