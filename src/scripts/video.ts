@@ -1,5 +1,5 @@
 const ANIMATION_TIME = 300;
-
+//@ts-ignore
 const videoInit = () => {
   const blocks = document.querySelectorAll("button");
   const videoArray = document.querySelectorAll(".multimedia__video");
@@ -11,25 +11,31 @@ const videoInit = () => {
 
   //контейнер с видео
   const videoList = document.querySelector(".multimedia__list");
-  let videoListWidth = parseInt(videoList.clientWidth);
+  let videoListWidth = parseInt(videoList.clientWidth.toString());
+  //@ts-ignore
   let videoListHeight;
 
   //volume meter
+  //@ts-ignore
   const ctx = document.querySelector("#meter").getContext("2d");
   const gradient = ctx.createLinearGradient(0, 0, 300, 0);
   gradient.addColorStop(1, "#000000");
   gradient.addColorStop(0.75, "#ff0000");
   gradient.addColorStop(0.25, "#ffff00");
   gradient.addColorStop(0, "#ffffff");
+  //@ts-ignore
   if (!window.AudioContext) {
+    //@ts-ignore
     if (!window.webkitAudioContext) {
       alert("no audiocontext found");
     }
+    //@ts-ignore
     window.AudioContext = window.webkitAudioContext;
   }
   const audioContext = new AudioContext();
-  	//сюда запоминаю элемент, созданный через createMediaElementSource
-  	//потому что удалять его не получается при смене источника аудио
+  //сюда запоминаю элемент, созданный через createMediaElementSource
+  //потому что удалять его не получается при смене источника аудио
+  //@ts-ignore
   let audioSourceNodes = { 0: null, 1: null, 2: null, 3: null };
 
   const analyser = audioContext.createAnalyser();
@@ -44,6 +50,7 @@ const videoInit = () => {
     ctx.fillStyle = gradient;
     ctx.fillRect(0, 0, 2 * average, 50);
   };
+  //@ts-ignore
   function getAverageVolume(array) {
     let values = 0;
     let average;
@@ -56,11 +63,16 @@ const videoInit = () => {
   }
   javascriptNode.connect(audioContext.destination);
   analyser.connect(javascriptNode);
+  //@ts-ignore
   function setupAudioNodes(video, index) {
+    //@ts-ignore
     if (!audioSourceNodes[index]) {
+      //@ts-ignore
       audioSourceNodes[index] = audioContext.createMediaElementSource(video);
     }
+    //@ts-ignore
     audioSourceNodes[index].connect(analyser);
+    //@ts-ignore
     audioSourceNodes[index].connect(audioContext.destination);
   }
 
@@ -70,6 +82,7 @@ const videoInit = () => {
     canvasObjects: {}
   };
   canvasArray.forEach((c, i) => {
+    //@ts-ignore
     appState.canvasObjects[i] = {
       canvas: c,
       fullScreen: false
@@ -86,13 +99,17 @@ const videoInit = () => {
     "http://193.124.177.175:8081/live-x/t2x2/playlist.m3u8",
     "http://hls-edge.cdn.buy-home.tv/bhtvlive/_definst_/live/playlist.m3u8" //
   ];
-
+  //@ts-ignore
   const createPlayer = (video, canvas, source) => {
+    //@ts-ignore
     if (Hls.isSupported()) {
+      //@ts-ignore
       const hls = new Hls();
       hls.attachMedia(video);
+      //@ts-ignore
       hls.on(Hls.Events.MEDIA_ATTACHED, () => {
         hls.loadSource(source);
+        //@ts-ignore
         hls.on(Hls.Events.MANIFEST_PARSED, (event, data) => {
           video.play().catch(() => {
             // на андроиде видео не запускалось автоматически, показываю кнопку
@@ -101,6 +118,7 @@ const videoInit = () => {
             blocks[canvas.index].addEventListener("click", event => {
               event.preventDefault();
               video.play().then(() => {
+                //@ts-ignore
                 blocks[canvas.index].disabled = "disabled";
                 blocks[canvas.index].innerText = `Played ${canvas.index + 1}`;
               });
@@ -109,11 +127,14 @@ const videoInit = () => {
           bindVideoCanvas(video, canvas);
         });
       });
+      //@ts-ignore
       hls.on(Hls.Events.ERROR, function(event, data) {
         switch (data.type) {
+          //@ts-ignore
           case Hls.ErrorTypes.NETWORK_ERROR:
             hls.startLoad();
             break;
+          //@ts-ignore
           case Hls.ErrorTypes.MEDIA_ERROR:
             hls.recoverMediaError();
             break;
@@ -126,12 +147,13 @@ const videoInit = () => {
       video.src = source;
       video.addEventListener("loadedmetadata", function() {
         video.play();
+        //@ts-ignore
         var video = videojs(video.id);
         bindVideoCanvas(video, canvas);
       });
     }
   };
-
+  //@ts-ignore
   const bindVideoCanvas = (video, canvas) => {
     const { node, index } = canvas;
     const context = node.getContext("2d");
@@ -142,15 +164,20 @@ const videoInit = () => {
     const playerWidth = node.parentNode.clientWidth;
     const playerHeight = node.parentNode.clientHeight;
     videoListHeight = playerHeight * 2 + 5;
-
+    //@ts-ignore
     function draw(v, c, w, h, index) {
       if (v.paused || v.ended) return false;
       if (appState.isFullScreen) {
+        //@ts-ignore
         if (appState.canvasObjects[index].fullScreen) {
           v.muted = false;
+          //@ts-ignore
           const newBright = `${parseInt(inputBright.value) + 100}%`;
+          //@ts-ignore
           const newContrast = `${parseInt(inputContrast.value) + 100}%`;
+          //@ts-ignore
           spanBright.innerText = newBright;
+          //@ts-ignore
           spanContrast.innerText = newContrast;
           c.filter = `brightness(${newBright}) contrast(${newContrast})`;
           c.drawImage(v, 0, 0, w, h);
@@ -174,15 +201,16 @@ const videoInit = () => {
       },
       false
     );
-
+    //@ts-ignore
     node.addEventListener("click", event => {
       event.preventDefault();
       if (Math.abs(videoListWidth - node.parentNode.clientWidth) > 10) {
         node.parentNode.classList.add("multimedia__video-frame--full");
 
-				const animation = node.parentNode.animate(
+        const animation = node.parentNode.animate(
           [
             { width: `${playerWidth}px`, height: `${playerHeight}px` },
+            //@ts-ignore
             { width: `${videoListWidth}px`, height: `${videoListHeight}px` }
           ],
           {
@@ -190,14 +218,16 @@ const videoInit = () => {
           }
         );
         animation.onfinish = () => {
-					setupAudioNodes(videoArray[index], index);
+          setupAudioNodes(videoArray[index], index);
 
           node.parentNode.style.width = `${videoListWidth}px`;
+          //@ts-ignore
           node.parentNode.style.height = `${videoListHeight}px`;
 
           let cObject = {
             ...appState.canvasObjects,
             [index]: {
+              //@ts-ignore
               ...appState.canvasObjects[index],
               fullScreen: true
             }
@@ -211,6 +241,7 @@ const videoInit = () => {
       } else {
         const animation = node.parentNode.animate(
           [
+            //@ts-ignore
             { width: `${videoListWidth}px`, height: `${videoListHeight}px` },
             { width: `${playerWidth}px`, height: `${playerHeight}px` }
           ],
@@ -221,6 +252,7 @@ const videoInit = () => {
         let cObject = {
           ...appState.canvasObjects,
           [index]: {
+            //@ts-ignore
             ...appState.canvasObjects[index],
             fullScreen: false
           }
@@ -230,6 +262,7 @@ const videoInit = () => {
           isFullScreen: false,
           canvasObjects: cObject
         };
+        //@ts-ignore
         audioSourceNodes[index].disconnect();
         animation.onfinish = () => {
           node.parentNode.classList.remove("multimedia__video-frame--full");

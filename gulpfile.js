@@ -2,13 +2,15 @@ const gulp = require("gulp");
 const fs = require("fs");
 const pug = require("gulp-pug");
 const data = require("gulp-data");
-const path = require("path");
 
 const sass = require("gulp-sass");
 const rename = require("gulp-rename");
 const autoprefixer = require("gulp-autoprefixer");
 
-// const browserSync = require('browser-sync').create();
+const ts = require("gulp-typescript");
+const tsProject = ts.createProject("tsconfig.json");
+
+const browserSync = require("browser-sync").create();
 
 const del = require("del");
 
@@ -23,8 +25,8 @@ const paths = {
     dest: "build/"
   },
   scripts: {
-    src: "src/scripts/**/*.js",
-    dest: "build/"
+    src: "src/scripts/**/*.ts",
+    dest: "build/js/"
   },
   images: {
     src: "src/images/**/*.*",
@@ -85,12 +87,12 @@ function watch() {
 }
 
 // локальный сервер + livereload (встроенный)
-// function server() {
-//   browserSync.init({
-//     server: paths.root
-//   });
-//   browserSync.watch(paths.root + '/**/*.*', browserSync.reload);
-// }
+function server() {
+  browserSync.init({
+    server: paths.root
+  });
+  browserSync.watch(paths.root + "/**/*.*", browserSync.reload);
+}
 
 // просто переносим картинки
 function images() {
@@ -98,7 +100,10 @@ function images() {
 }
 // просто переносим скрипты
 function scripts() {
-  return gulp.src(paths.scripts.src).pipe(gulp.dest(paths.scripts.dest));
+  return tsProject
+    .src()
+    .pipe(tsProject())
+    .js.pipe(gulp.dest(paths.scripts.dest));
 }
 
 // просто переносим шрифты
@@ -120,7 +125,7 @@ gulp.task(
   gulp.series(
     clean,
     gulp.parallel(styles, templates, fonts, images, scripts),
-    gulp.parallel(watch)
+    gulp.parallel(watch, server)
   )
 );
 
@@ -128,3 +133,5 @@ gulp.task(
   "build",
   gulp.series(clean, gulp.parallel(styles, templates, fonts, images, scripts))
 );
+
+gulp.task("ts", function() {});

@@ -1,0 +1,11 @@
+{
+  "files": [
+    "src/scripts/app.ts",
+    "src/scripts/video.ts",
+    "src/scripts/pointer.ts"
+  ],
+  "compilerOptions": {
+    "noImplicitAny": true,
+    "target": "es5"
+  }
+}
