@@ -100,8 +100,8 @@ function images() {
 }
 // просто переносим скрипты
 function scripts() {
-  return tsProject
-    .src()
+  return gulp
+    .src(paths.scripts.src)
     .pipe(tsProject())
     .js.pipe(gulp.dest(paths.scripts.dest));
 }

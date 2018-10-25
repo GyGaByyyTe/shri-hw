@@ -1,6 +1,6 @@
 const ANIMATION_TIME = 300;
 //@ts-ignore
-const videoInit = () => {
+export function videoInit() {
   const blocks = document.querySelectorAll("button");
   const videoArray = document.querySelectorAll(".multimedia__video");
   const canvasArray = document.querySelectorAll(".multimedia__canvas");
@@ -10,7 +10,8 @@ const videoInit = () => {
   const spanContrast = document.querySelector(".multimedia__contrast");
 
   //контейнер с видео
-  const videoList = document.querySelector(".multimedia__list");
+	const videoList = document.querySelector(".multimedia__list");
+	//@ts-ignore
   let videoListWidth = parseInt(videoList.clientWidth.toString());
   //@ts-ignore
   let videoListHeight;
@@ -276,12 +277,4 @@ const videoInit = () => {
   for (let i = 0; i < 4; i++) {
     createPlayer(videoArray[i], { node: canvasArray[i], index: i }, sources[i]);
   }
-};
-
-document.addEventListener(
-  "DOMContentLoaded",
-  () => {
-    videoInit();
-  },
-  false
-);
+}

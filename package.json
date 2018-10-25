@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/GyGaByyyTe/shri-hw-1#readme",
   "devDependencies": {
+    "@types/node": "^10.12.0",
     "browser-sync": "^2.24.6",
     "del": "^3.0.0",
     "gulp": "^4.0.0",

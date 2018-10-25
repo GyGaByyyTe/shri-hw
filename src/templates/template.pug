@@ -17,4 +17,7 @@ html
 	body
 		block content
 
-	script(src='./js/app.js' defer)
+	script(src="https://requirejs.org/docs/release/2.3.6/minified/require.js" defer)
+	script(src='./js/bundle.js' defer )
+	script(type="text/javascript").
+		document.addEventListener("DOMContentLoaded",function() {require(["app"]);},false);

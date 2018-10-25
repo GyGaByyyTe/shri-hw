@@ -80,7 +80,8 @@
     </div>
     <script src="https://rawgit.com/web-animations/web-animations-js/master/web-animations.min.js"></script>
     <script src="//cdn.jsdelivr.net/npm/hls.js@latest" defer></script>
-    <script src="./js/video.js" defer></script>
   </body>
-  <script src="./js/app.js" defer></script>
+  <script src="https://requirejs.org/docs/release/2.3.6/minified/require.js" defer></script>
+  <script src="./js/bundle.js" defer></script>
+  <script type="text/javascript">document.addEventListener("DOMContentLoaded",function() {require(["app"]);},false);</script>
 </html>
