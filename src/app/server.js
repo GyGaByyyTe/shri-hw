@@ -5,7 +5,6 @@ var os = require("os");
 
 const networkInterfaces = os.networkInterfaces();
 const app = express();
-const host = "0.0.0.0";
 const port = 8000;
 
 const filePath = __dirname + "/events.json";
@@ -67,10 +66,10 @@ app.get("/api/events", (req, res) => {
 app.use((req, res, next) => {
   res.status(404).send("<h1>Page not found</h1>");
 });
-app.listen(port, host, () => {
+app.listen(port, () => {
   let currentTime = startTime.toTimeString().split(" ")[0];
   console.log(
     `Server started at ${currentTime},
-		 local: 127.0.0.1:${port}`
+		 local: http://localhost:${port}`
   );
 });

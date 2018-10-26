@@ -98,6 +98,10 @@ function server() {
 function images() {
   return gulp.src(paths.images.src).pipe(gulp.dest(paths.images.dest));
 }
+// просто переносим hls
+function hls() {
+  return gulp.src("src/hls.js").pipe(gulp.dest(paths.root));
+}
 // просто переносим скрипты
 function scripts() {
   return gulp
@@ -124,14 +128,15 @@ gulp.task(
   "default",
   gulp.series(
     clean,
-    gulp.parallel(styles, templates, fonts, images, scripts),
+    gulp.parallel(styles, templates, fonts, images, scripts, hls),
     gulp.parallel(watch, server)
   )
 );
 
 gulp.task(
   "build",
-  gulp.series(clean, gulp.parallel(styles, templates, fonts, images, scripts))
+  gulp.series(
+    clean,
+    gulp.parallel(styles, templates, fonts, images, scripts, hls)
+  )
 );
-
-gulp.task("ts", function() {});
