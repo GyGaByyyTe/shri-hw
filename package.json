@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "gulp build && server",
-    "server": "./node_modules/typescript/bin/tsc src/app/server.ts && nodemon src/app/server.js"
+    "server": "tsc src/app/server.ts && nodemon src/app/server.js"
   },
   "repository": {
     "type": "git",
