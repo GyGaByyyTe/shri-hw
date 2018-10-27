@@ -1,10 +1,10 @@
-import { Request, Response, NextFunction } from "express";
+import { Application, Request, Response, NextFunction } from "express";
 
 const fs = require("fs");
 const JSONStream = require("JSONStream");
 const express = require("express");
 
-const app = express();
+const app: Application = express();
 const port = 8000;
 
 const filePath = __dirname + "/events.json";
