@@ -1,0 +1,30 @@
+extends ../template
+
+block variables
+	- var title = 'Яндекс Дом - Pointer Events'
+
+block content
+	.wrapper#wrapper
+		.content#content
+			include ../components/header.pug
+			+header(4)
+
+			section.camera
+				.camera__controls
+					.camera__zoom
+						h3.camera__text Zoom: x
+							span(id="camera-zoom" class="camera__info")
+					.camera__brightness
+						h3.camera__text Brightness:
+							span(id="camera-brightness" class="camera__info")
+					.camera__position
+						h3.camera__text Location:
+					.camera__location
+						div(id="camera-location" class="camera__range")
+							div(id="camera-pointer" class="camera__range-pointer")
+				div(id="main-viewer" class="camera__viewer" touch-action="none")
+					.camera__image
+						img(id="main-image" class="camera__source" src="./assets/images/image.jpg" ondragstart="return false;")
+
+		include ../components/footer.pug
+		+footer

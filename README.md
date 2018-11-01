@@ -12,6 +12,8 @@
 
 [ README ДЗ-4 Сервер ](https://github.com/GyGaByyyTe/shri-hw/blob/master/README.server.md) 
 
+[ README ДЗ-7 TypeScript ](https://github.com/GyGaByyyTe/shri-hw/blob/master/README.typescript.md) 
+
 ### Запуск
 1. ```git clone``` -> folder
 2. ```cd``` folder

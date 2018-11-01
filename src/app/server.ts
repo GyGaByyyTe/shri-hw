@@ -1,11 +1,10 @@
+import { Application, Request, Response, NextFunction } from "express";
+
 const fs = require("fs");
 const JSONStream = require("JSONStream");
 const express = require("express");
-var os = require("os");
 
-const networkInterfaces = os.networkInterfaces();
-const app = express();
-const host = "0.0.0.0";
+const app: Application = express();
 const port = 8000;
 
 const filePath = __dirname + "/events.json";
@@ -14,10 +13,10 @@ const startTime = new Date();
 
 app.use(express.static(__dirname + "../../../build/"));
 
-app.get("/status", (req, res) => {
-  let estimateTime = new Date() - startTime;
-  function secondsToHMS(secs) {
-    function z(n) {
+app.get("/status", (req: Request, res: Response) => {
+  let estimateTime = Number(new Date()) - Number(startTime);
+  function secondsToHMS(secs: number) {
+    function z(n: number) {
       return (n < 10 ? "0" : "") + n;
     }
     secs = Math.abs(secs);
@@ -32,12 +31,12 @@ app.get("/status", (req, res) => {
   res.send(`<h1>server uptime: ${secondsToHMS(estimateTime / 1000)}</h1>`);
 });
 
-app.get("/api/events", (req, res) => {
+app.get("/api/events", (req: Request, res: Response) => {
   //есть гет параметры и среди них type
   if (Object.keys(req.query).length > 0 && req.query.type) {
     const params = req.query.type.split(":");
     for (let index = 0; index < params.length; index++) {
-      if (!statuses.includes(params[index])) {
+      if (statuses.indexOf(params[index]) > 0) {
         res.status(400).send("<h1>ERROR 400 incorrect type</h1>");
         return;
       }
@@ -48,13 +47,13 @@ app.get("/api/events", (req, res) => {
 
     stream.pipe(parser);
 
-    parser.on("data", function(obj) {
+    parser.on("data", function(obj: { type: string }) {
       if (params.includes(obj["type"])) {
         res.write(JSON.stringify(obj, null, 2));
       }
     });
 
-    stream.on("end", function(obj) {
+    stream.on("end", function() {
       res.end();
     });
   } else {
@@ -64,13 +63,13 @@ app.get("/api/events", (req, res) => {
   }
 });
 
-app.use((req, res, next) => {
+app.use((req: Request, res: Response, next: NextFunction) => {
   res.status(404).send("<h1>Page not found</h1>");
 });
-app.listen(port, host, () => {
+app.listen(port, () => {
   let currentTime = startTime.toTimeString().split(" ")[0];
   console.log(
     `Server started at ${currentTime},
-		 local: 127.0.0.1:${port}`
+		 local: http://localhost:${port}`
   );
 });

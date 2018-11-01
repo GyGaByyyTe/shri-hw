@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "strict": true,
+    "allowJs": true,
+    "module": "amd",
+    "noImplicitAny": true,
+    "target": "es5",
+    "outFile": "bundle.js",
+    "esModuleInterop": true,
+    "types": ["hls.js", "express"],
+    "lib": ["es7", "dom"]
+  },
+  "exclude": ["node_modules"]
+}
