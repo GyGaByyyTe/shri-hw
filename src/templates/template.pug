@@ -19,5 +19,6 @@ html
 
 	script(src="https://requirejs.org/docs/release/2.3.6/minified/require.js" defer)
 	script(src='./js/bundle.js' defer )
+	script(src='./js/framework.js' defer )
 	script(type="text/javascript").
-		document.addEventListener("DOMContentLoaded",function() {require(["app"]);},false);
+		document.addEventListener("DOMContentLoaded",function() {require(["app","index"]);},false);

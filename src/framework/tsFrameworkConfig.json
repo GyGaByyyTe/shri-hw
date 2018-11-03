@@ -1,0 +1,10 @@
+{
+  "compilerOptions": {
+    "strict": true,
+    "allowJs": true,
+    "module": "amd",
+    "noImplicitAny": true,
+    "target": "es6"
+  },
+  "exclude": ["node_modules"]
+}

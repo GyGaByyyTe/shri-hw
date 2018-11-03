@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "gulp build && npm run server",
-    "server": "tsc src/app/server.ts && node src/app/server.js"
+    "server": "tsc src/app/server.ts && node src/app/server.js",
+    "flux": "rm -f build/js/framework.js && tsc --p src/framework/tsFrameworkConfig.json"
   },
   "repository": {
     "type": "git",

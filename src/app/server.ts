@@ -1,5 +1,5 @@
 import { Application, Request, Response, NextFunction } from "express";
-
+const path = require('path');
 const fs = require("fs");
 const JSONStream = require("JSONStream");
 const express = require("express");
@@ -11,7 +11,7 @@ const filePath = __dirname + "/events.json";
 const statuses = ["info", "critical"];
 const startTime = new Date();
 
-app.use(express.static(__dirname + "../../../build/"));
+app.use(express.static(path.join(__dirname + "/../../build/")));
 
 app.get("/status", (req: Request, res: Response) => {
   let estimateTime = Number(new Date()) - Number(startTime);
