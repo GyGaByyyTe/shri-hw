@@ -1,6 +1,6 @@
 # shri-hw-10
 
-## ДЗ-10 TypeScript
+## ДЗ-10 Framework
 
 #### Основные моменты:
 
