@@ -2,9 +2,10 @@
   "compilerOptions": {
     "strict": true,
     "allowJs": true,
-    "module": "amd",
     "noImplicitAny": true,
-    "target": "es6"
+    "target": "es2017",
+    "module": "commonjs",
+    "outDir": "../../build-framework/build-tsc"
   },
   "exclude": ["node_modules"]
 }

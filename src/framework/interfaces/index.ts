@@ -13,3 +13,11 @@ export interface Callback {
 export interface IHandler {
   [key: string]: Array<Callback>;
 }
+
+export interface IStoreData {
+  [key: string]: any;
+}
+
+export interface ISignalCallback {
+  (): void;
+}
