@@ -3,8 +3,6 @@ import { videoInit } from "./video";
 
 import { Flux } from "../framework/index";
 
-console.log("App initialized");
-
 if (document.querySelector("#hamburger")) {
   const hamburgerButton: HTMLDivElement | null = document.querySelector(
     ".hamburger"

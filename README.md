@@ -14,6 +14,8 @@
 
 [ README ДЗ-7 TypeScript ](https://github.com/GyGaByyyTe/shri-hw/blob/master/README.typescript.md) 
 
+[ README ДЗ-10 Framework ](https://github.com/GyGaByyyTe/shri-hw/blob/master/README.framework.md) 
+
 ### Запуск
 1. ```git clone``` -> folder
 2. ```cd``` folder
