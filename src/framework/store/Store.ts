@@ -1,17 +1,10 @@
 import * as typing from "../interfaces/index";
-interface IStoreData {
-  [key: string]: any;
-}
-
-interface ISignalCallback {
-  (): void;
-}
 
 export class Store {
   protected signals: { [key: string]: any };
-  data: IStoreData;
+  data: typing.IStoreData;
 
-  constructor(state: IStoreData) {
+  constructor(state: typing.IStoreData) {
     this.data = state;
     this.signals = {};
     this.reactivate();
@@ -34,7 +27,7 @@ export class Store {
     }
   };
 
-  observe = (property: string, signalHandler: ISignalCallback) => {
+  onChange = (property: string, signalHandler: typing.ISignalCallback) => {
     if (!this.signals[property]) {
       this.signals[property] = [];
     }
@@ -43,7 +36,7 @@ export class Store {
 
   protected notify = (signal: string) => {
     if (!this.signals[signal] || this.signals[signal].length < 1) return;
-    this.signals[signal].forEach((signalHandler: ISignalCallback) =>
+    this.signals[signal].forEach((signalHandler: typing.ISignalCallback) =>
       signalHandler()
     );
   };

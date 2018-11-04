@@ -7,11 +7,11 @@ export class Dispatcher {
     this.handlers = {};
   }
 
-  register = (action: typing.IAction, handler: typing.Callback) => {
-    if (!this.handlers[action.type]) {
-      this.handlers[action.type] = [];
+  register = (actionType: typing.ActionType, handler: typing.Callback) => {
+    if (!this.handlers[actionType]) {
+      this.handlers[actionType] = [];
     }
-    this.handlers[action.type].push(handler);
+    this.handlers[actionType].push(handler);
   };
 
   dispatch = (action: typing.IAction) => {
