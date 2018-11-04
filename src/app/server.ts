@@ -1,5 +1,5 @@
 import { Application, Request, Response, NextFunction } from "express";
-const path = require('path');
+const path = require("path");
 const fs = require("fs");
 const JSONStream = require("JSONStream");
 const express = require("express");
@@ -12,6 +12,14 @@ const statuses = ["info", "critical"];
 const startTime = new Date();
 
 app.use(express.static(path.join(__dirname + "/../../build/")));
+
+app.get(["/pointer", "/video","/main"], (req: Request, res: Response) => {
+  var index = fs.readFileSync(
+    path.join(__dirname + `/../../build${req.path}.html`)
+  );
+  res.writeHead(200, { "Content-Type": "text/html; charset=utf8" });
+  res.end(index);
+});
 
 app.get("/status", (req: Request, res: Response) => {
   let estimateTime = Number(new Date()) - Number(startTime);
