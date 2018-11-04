@@ -10,14 +10,14 @@ mixin header(activeIndex, linkArray)
 				ul.menu__list
 					-
 						var menuLinks = [
-							[ '/index.html',  'Сводка' ],
-							[ '#', 						'Устройства' ],
-							[ '#',     				'Сценарии' ],
-							[ '/video.html',  'Видеонаблюдение' ],
-							[ '/pointer.html',  'Пылесос' ],
+							[ 'main',  		'Сводка' ],
+							[ 'dump1', 		'Устройства' ],
+							[ 'dump2',    'Сценарии' ],
+							[ 'video',  	'Видеонаблюдение' ],
+							[ 'pointer',  'Пылесос' ],
 							]
 					each item,index in menuLinks
 						- var isActive = (index === activeIndex);
 						li(class = isActive? 'menu__item menu__item--active': 'menu__item')
-							a(href=`${item[0]}` class='menu__link') #{item[1]}
+							a(href='#' id=`${item[0]}` class='menu__link') #{item[1]}
 

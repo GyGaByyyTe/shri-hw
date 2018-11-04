@@ -18,7 +18,11 @@ html
 		block content
 
 	script(src="https://requirejs.org/docs/release/2.3.6/minified/require.js" defer)
-	script(src='./js/bundle.js' defer )
 	script(src='./js/framework.js' defer )
-	script(type="text/javascript").
-		document.addEventListener("DOMContentLoaded",function() {require(["app","index"]);},false);
+	script(src='./js/bundle.js' defer )
+	script(type="text/javascript" defer).
+		document.addEventListener("DOMContentLoaded",function() {
+		//- require(["flux","app"]);
+		require(["scripts/app"], function() {console.log('lol')});
+		},false);
+

@@ -1,48 +1,48 @@
-extends ../template
+//- extends ../template
 
-block variables
-	- var title = 'Яндекс Дом - Видеонаблюдение'
+//- block variables
+//- 	- var title = 'Яндекс Дом - Видеонаблюдение'
 
-block content
-	.wrapper#wrapper
-		.content#content
-			include ../components/header.pug
-			+header(3)
+//- block content
+//- 	.wrapper#wrapper
+//- 		.content#content
+//- 			include ../components/header.pug
+//- 			+header(3)
 
-			section.multimedia
-				h1.multimedia__header Видео-каналы
-				.multimedia__controls
-					label(class="multimedia__label") Яркость
-						input(type="range" min="-100" max="400" value="0" step="10" id="bright" class="multimedia__range")
-						span.multimedia__bright 100%
-					label(class="multimedia__label") Контрастность
-						input(type="range" min="-100" max="400" value="0" step="10" id="contrast" class="multimedia__range")
-						span.multimedia__contrast 100%
-				canvas(id="meter" class="multimedia__volume" width="300" height="30")
-				span.multimedia__text-volume Громкость
-				.buttons
-					button(id="click1") Play 1 видео
-					button(id="click2") Play 2 видео
-					button(id="click3") Play 3 видео
-					button(id="click4") Play 4 видео
-				div.multimedia__list
-					div(class="multimedia__video-frame")
-						video(id="video1" crossorigin="anonymous" class="multimedia__video")
-						canvas(id="canvas-for-video1" class="multimedia__canvas")
-					div(class="multimedia__video-frame")
-						video(id="video2" crossorigin="anonymous" class="multimedia__video")
-						canvas(id="canvas-for-video2" class="multimedia__canvas")
-					div(class="multimedia__video-frame")
-						video(id="video3" crossorigin="anonymous" class="multimedia__video" )
-						canvas(id="canvas-for-video3" class="multimedia__canvas")
-					div(class="multimedia__video-frame")
-						video(id="video4" crossorigin="anonymous" class="multimedia__video")
-						canvas(id="canvas-for-video4" class="multimedia__canvas")
+section.multimedia
+	h1.multimedia__header Видео-каналы
+	.multimedia__controls
+		label(class="multimedia__label") Яркость
+			input(type="range" min="-100" max="400" value="0" step="10" id="bright" class="multimedia__range")
+			span.multimedia__bright 100%
+		label(class="multimedia__label") Контрастность
+			input(type="range" min="-100" max="400" value="0" step="10" id="contrast" class="multimedia__range")
+			span.multimedia__contrast 100%
+	canvas(id="meter" class="multimedia__volume" width="300" height="30")
+	span.multimedia__text-volume Громкость
+	.buttons
+		button(id="click1") Play 1 видео
+		button(id="click2") Play 2 видео
+		button(id="click3") Play 3 видео
+		button(id="click4") Play 4 видео
+	div.multimedia__list
+		div(class="multimedia__video-frame")
+			video(id="video1" crossorigin="anonymous" class="multimedia__video")
+			canvas(id="canvas-for-video1" class="multimedia__canvas")
+		div(class="multimedia__video-frame")
+			video(id="video2" crossorigin="anonymous" class="multimedia__video")
+			canvas(id="canvas-for-video2" class="multimedia__canvas")
+		div(class="multimedia__video-frame")
+			video(id="video3" crossorigin="anonymous" class="multimedia__video" )
+			canvas(id="canvas-for-video3" class="multimedia__canvas")
+		div(class="multimedia__video-frame")
+			video(id="video4" crossorigin="anonymous" class="multimedia__video")
+			canvas(id="canvas-for-video4" class="multimedia__canvas")
 
 
-		include ../components/footer.pug
-		+footer
+		//- include ../components/footer.pug
+		//- +footer
 
-	script(src="https://rawgit.com/web-animations/web-animations-js/master/web-animations.min.js")
-	script(src="//cdn.jsdelivr.net/npm/hls.js@latest")
+script(src="https://rawgit.com/web-animations/web-animations-js/master/web-animations.min.js")
+script(src="//cdn.jsdelivr.net/npm/hls.js@latest")
 
